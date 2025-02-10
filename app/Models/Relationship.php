@@ -14,12 +14,12 @@ class Relationship extends Model
 
     public function parent()
     {
-        return $this->belongsTo(People::class, 'parent_id');
+        return $this->belongsTo(Person::class, 'parent_id');
     }
 
     public function child()
     {
-        return $this->belongsTo(People::class, 'child_id');
+        return $this->belongsTo(Person::class, 'child_id');
     }
 
     public function creator()
