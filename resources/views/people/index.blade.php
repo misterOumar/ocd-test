@@ -2,11 +2,10 @@
 
 @section('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 @endsection
 
 @section('content')
-    <h1>Liste des personnes</h1>
-
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -15,37 +14,48 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <a href="{{ route('people.create') }}" class="btn btn-primary">Ajouter une personne</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Créé par</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($people as $person)
-                <tr>
-                    <td>{{ $person->last_name }}</td>
-                    <td>{{ $person->first_name }}</td>
-                    <td>{{ $person->creator->name }}</td>
-                    <td>
-                        <a href="{{ route('people.show', $person) }}" class="btn btn-sm btn-info">Voir</a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+
+    <div class="table-container">
+        <div class="table-header">
+            <h1>Liste des personnes</h1>
+            <a href="{{ route('people.create') }}" class="btn btn-primary">Ajouter une personne</a>
+        </div>
+        <div class="table-body">
+
+
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Créé par</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($people as $person)
+                        <tr>
+                            <td>{{ $person->last_name }}</td>
+                            <td>{{ $person->first_name }}</td>
+                            <td>{{ $person->creator->name }}</td>
+                            <td>
+                                <a href="{{ route('people.show', $person) }}" class=""><i class='bx bx-show'></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {  
+        $(document).ready(function() {
             // Initialise la table de données avec DataTables et configuration en français
             $('table').DataTable({
                 language: {
