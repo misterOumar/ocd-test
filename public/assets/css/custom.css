@@ -30,7 +30,7 @@ body {
 
 .table-header{
     width: 100%;
-    height: 10%;
+    height: 12%;
     background-color: #fff4;
     padding: .8rem 1rem;
     display: flex;
@@ -127,15 +127,74 @@ tbody tr:hover {
 }
 
 .btn{
-    width: 100%;
-    max-width: 20rem;
     margin: 40px 0 20px;
-    padding:  12px 0;
-    background-color: #fff;
+    padding:  12px 24px;
+    background-color: rgba(255, 255, 255, 0.651);
     color: #080710;
     font-size: 18px;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
+    backdrop-filter: blur(20px);
+}
+
+.card{
+    background-color: rgba(255, 255, 255, .07);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, .1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, .6);
+    padding: 50px 35px;
+    position: relative;
+    color: #999999;
+}
+
+.card-img{
+    width:120px;
+    height: 120px;
+    /* position: absolute; */
+    margin: 0 auto;
+    
+}
+
+.card-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.desc{
+    width: 100%;
+}
+
+.desc h1{
+    text-align: center;
+    color: #d5d5d5;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    margin: 5px 0;
+}
+
+.parents, .enfants{
+    margin: 20px 0;
+}
+
+.enfants{
+    margin-bottom: 4rem;
+}
+.parents h2, .enfants h2{
+    display: block;
+    color: #d5d5d5;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    text-align: center;
+    border-bottom: 2px solid #d5d5d5;
+
+
 }
 
