@@ -44,6 +44,7 @@ body {
     max-height: calc(89% - .8rem);
     background-color: #fffb;
     border-radius: .6rem;
+    padding: .6rem;
 
     margin: .8rem auto;
     overflow: auto;

@@ -173,10 +173,24 @@ form{
 
 .toggle-panel .btn{
     width: 160px;
-    height: 46px;
+padding: 10px 20px;
     background: transparent;
     border: 2px solid #fff;
     box-shadow: none;
+}
+
+.error-box, .success-box{
+    margin-top: 1.4rem;
+   
+    width: 100%;
+    padding: 20px;
+    background: #ff4d4dd7;
+    color: #fff;
+    border-radius: 1rem;
+}
+
+.success-box{
+    background: #60fa60d0;
 }
 
 

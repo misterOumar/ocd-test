@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -23,11 +25,11 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([
-            'email' => 'Les identifiants fournis ne correspondent pas à nos enregistrements.',
+            'email' => 'Email ou mot de passe incorrect',
         ]);
     }
 
@@ -52,7 +54,8 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('dashboard');
+       
+        return redirect()->route('login')->with('success', 'Votre compte a été créé avec succès, Connectez-vous !');
     }
 
     public function logout(Request $request)

@@ -19,7 +19,14 @@
     <div class="table-container">
         <div class="table-header">
             <h1>Liste des personnes</h1>
+
+            {{-- Verifier si un utlisateur est connecté avant d'afficher le bouton ajouter nouveau --}}
+            @if(Auth::check())
+
             <a href="{{ route('people.create') }}" class="btn btn-primary">Ajouter une personne</a>
+            @else
+            <a href="{{ route('login') }}" class="btn btn-primary">Se connecter</a>
+            @endif
         </div>
         <div class="table-body">
 

@@ -11,7 +11,7 @@
                 @csrf
                 <h1>Connexion</h1>
                    @if ($errors->any())
-                <div>
+                <div class="error-box">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -19,6 +19,12 @@
                     </ul>
                 </div>
             @endif
+
+            @if (session('success'))
+    <div class="success-box">
+        {{ session('success') }}
+    </div>
+@endif
                 <div class="input-box">
                     <input type="email" name="email" id="email" required autofocus placeholder="Email">
                     <i class='bx bxs-user'></i>
@@ -34,18 +40,26 @@
 
         </div>
         <div class="form-box register">
-            @if ($errors->any())
-                <div>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <form method="POST" action="{{ route('register') }}">
                 @csrf
                 <h1>Inscription</h1>
+                @if ($errors->any())
+                    <div class="error-box">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                {{-- sucess message session flash --}}
+                
+                
+               @if(Session::has('success'))
+               <div class="sucess-box">
+                <p class="success">{{ Session::get('success') }}</p>
+               </div>
+@endif
                 <div class="input-box">
                     <input type="text" name="name" id="name" required autofocus placeholder="Nom d'utilisateur">
                     <i class='bx bxs-user'></i>
@@ -70,12 +84,12 @@
         </div>
         <div class="toggle-box">
             <div class="toggle-panel toggle-left">
-                <h1> Bonjour, Bienvenu</h1>
+                <h1>Bienvenu à nouveau !</h1>
                 <p>Vous n'avez pas de compte ?</p>
                 <button class="btn btn-register" >S'inscrire</button>
             </div>
             <div class="toggle-panel toggle-right">
-                <h1>Bienvenu à nouveau</h1>
+                <h1> Bonjour, Bienvenu </h1>
                 <p>Vous avez  déjà un compte ?</p>
                 <button class="btn btn-login" >Connexion</button>
             </div>
