@@ -1,66 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Projet Laravel : Arbre Généalogique Collaboratif - Test de Stage Développeur Full-Stack
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Introduction
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Ce projet a été réalisé dans le cadre d'un test technique pour un stage de développeur full-stack. Il s'agit d'une application web développée avec Laravel, visant à créer et gérer un arbre généalogique de manière collaborative. L'objectif est de permettre à plusieurs utilisateurs de construire et maintenir un arbre généalogique en assurant l'intégrité des données grâce à un système de propositions et de validations par la communauté.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Ce README détaille la structure du projet, en mettant l'accent sur la conception de la base de données et le processus d'évolution des données pour les propositions et validations de modifications.
+## PARTIE 3 : Diagramme de la Base de Données avec dbdiagram.io![Untitled](https://github.com/user-attachments/assets/3316e9bb-ddc5-46a5-b39d-6638b716cead)
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+La structure de la base de données a été conçue avec dbdiagram.io pour visualiser clairement les tables et leurs relations.
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Description Générale
+Le script dbdiagram.io pour la structure de base de données de notre système de généalogie collaborative comprend les tables suivantes :
 
-## Contributing
+    users : Stocke les informations des utilisateurs du site.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    people : Contient les fiches des personnes dans l'arbre généalogique.
 
-## Code of Conduct
+    relationships : Définit les relations familiales entre les personnes.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    invitations : Gère les invitations envoyées aux membres de la famille.
 
-## Security Vulnerabilities
+    modification_proposals : Enregistre les propositions de modifications ou d'ajouts.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    proposal_validations : Suit les validations ou refus des propositions par les utilisateurs.
 
-## License
+Lien pour visualiser : https://dbdiagram.io/d/67b0b2c5263d6cf9a044a666
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+### Évolution des données pour les cas "Propositions de Modifications" et "Validation des Modifications"
+
+
+Cette section décrit comment les données évoluent (insertions, mises à jour) au fil des cas "Propositions de Modifications" et "Validation des Modifications" pour montrer que la structure répond bien au problème posé par le test de stage.
+Cas : Proposition d'ajout d'une relation parent-enfant
+
+Supposons que l'utilisateur rose03 (ID: 3) propose d'ajouter une relation parent-enfant entre sa fiche Rose PERRET (ID: 5) et Jean PERRET (ID: 1).
+
+#### 1.Création de la proposition
+
+Une nouvelle entrée est ajoutée dans la table `modification_proposals`:
+
+
+```sql
+INSERT INTO modification_proposals
+(proposer_id, type, person_id, new_value, status, created_at, updated_at)
+VALUES
+(3, 'relationship', 5, '{"parent_id": 1, "child_id": 5}', 'pending', NOW(), NOW());
+```
+
+
+#### 2. Processus de validation
+Lorsque les utilisateurs valident ou refusent la proposition, des entrées sont ajoutées dans `proposal_validations` :
+
+
+```sql
+-- Jean (ID: 1) accepte
+INSERT INTO proposal_validations (proposal_id, user_id, vote, created_at, updated_at)
+VALUES (1, 1, 'accept', NOW(), NOW());
+
+-- Marie (ID: 2) accepte
+INSERT INTO proposal_validations (proposal_id, user_id, vote, created_at, updated_at)
+VALUES (1, 2, 'accept', NOW(), NOW());
+
+-- Paul (ID: 4) refuse
+INSERT INTO proposal_validations (proposal_id, user_id, vote, created_at, updated_at)
+VALUES (1, 4, 'reject', NOW(), NOW());
+
+-- Marc (ID: 5) accepte, atteignant le seuil de validation
+INSERT INTO proposal_validations (proposal_id, user_id, vote, created_at, updated_at)
+VALUES (1, 5, 'accept', NOW(), NOW());
+```
+
+Une fois le seuil de 3 acceptations atteint, la proposition est validée :
+
+```sql
+-- Mise à jour du statut de la proposition
+UPDATE modification_proposals
+SET status = 'accepted', updated_at = NOW()
+WHERE id = 1;
+
+-- Ajout de la nouvelle relation dans la table relationships
+INSERT INTO relationships (created_by, parent_id, child_id, created_at, updated_at)
+VALUES (3, 1, 5, NOW(), NOW());
+```
+
+
+### Cas : Proposition de modification d'une information personnelle
+
+Imaginons que Marie (ID: 2) propose de modifier la date de naissance de Jean (ID: 1).
+
+#### 1.Création de la proposition
+```sql
+INSERT INTO modification_proposals
+(proposer_id, type, person_id, field, old_value, new_value, status, created_at, updated_at)
+VALUES
+(2, 'person', 1, 'date_of_birth', '1950-01-01', '1951-01-01', 'pending', NOW(), NOW());
+```
+
+
+
+#### 2.Processus de validation
+
+Similaire au cas précédent, les utilisateurs votent sur la proposition.
+
+#### 3.Validation de la proposition
+
+Une fois validée :
+
+```sql
+-- Mise à jour du statut de la proposition
+UPDATE modification_proposals
+SET status = 'accepted', updated_at = NOW()
+WHERE id = 2;
+
+-- Mise à jour de l'information dans la table people
+UPDATE people
+SET date_of_birth = '1951-01-01', updated_at = NOW()
+WHERE id = 1;
+```
+
+
+Cette approche garantit que toutes les modifications sont soumises à l'approbation de la communauté avant d'être appliquées, préservant ainsi l'intégrité des données généalogiques tout en permettant des contributions collaboratives.
